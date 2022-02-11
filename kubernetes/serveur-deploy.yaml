@@ -1,19 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: serveur-deployment
   labels:
-    name: serveur
-  name: serveur
+    app: flask-vue-kebernetes
+    tier: web
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: serveur
+      app: flask-vue-kebernetes
   template:
     metadata:
+      name: server-pod
       labels:
-        app: serveur
+        app: flask-vue-kebernetes
+        tier: server
     spec:
       containers:
-      - image: zozoh94/flask-vue-serveur:latest
-        name: serveur
+      - name: flask-vue-kebernetes
+        image: zozoh94/flask-vue-server:v1.1
+        env:
+          - name: POSTGRES_HOST
+            value: "postgres"
+          - name: POSTGRES_USER
+            value: "postgres"
+          - name: POSTGRES_PASSWORD
+            value: "postgres"
+        ports:
+        - containerPort: 80
