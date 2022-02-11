@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: client-deployment
   labels:
     name: client
-  name: client
 spec:
   replicas: 2
   selector:
@@ -13,7 +13,10 @@ spec:
     metadata:
       labels:
         app: client
+        tier: client
     spec:
       containers:
-      - image: zozoh94/flask-vue-client:latest
+      - image: zozoh94/flask-vue-client:v1.1
         name: client
+        ports:
+        - containerPort: 80
