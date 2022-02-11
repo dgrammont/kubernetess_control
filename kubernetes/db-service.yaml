@@ -1,12 +1,12 @@
 # PostgreSQL StatefulSet Service
 apiVersion: v1
 kind: Service
-metadata:
-name: postgres-db-lb
+metadata: 
+  name: db-service
 spec:
-selector:
-app: postgresql-db
-type: LoadBalancer
-ports:
-- port: 5432
-targetPort: 5432
+  selector:
+    tier: db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
