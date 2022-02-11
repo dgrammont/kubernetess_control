@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: flask-web-kubernetes-configmap
 data:
-  projact_name: "Dylan-Grammont" 
+  projact_name: "Dylan-Grammont"

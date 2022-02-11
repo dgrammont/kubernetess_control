@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: db-statefulset
   labels:
-    app: flaskweb
+    app: flaskvue
     tier: db
 spec:
   selector:
@@ -15,24 +15,19 @@ spec:
     metadata:
       name: db-pod
       labels:
-        app: flaskweb
+        app: flaskvue
         tier: db
     spec:
-      affinity:
-        nodeAffinity:
-          requireDuringSchedulingIgnoreDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions: 
-                - key: nod-role.kubernetes.io/master
-                  operator: DoesNotExist
       containers:
         - name: db-container
-          image: postgres:10
+          image: zozoh94/flask-vue-db:v1.1
           env:
             - name: POSTGRES_USER
               value: "flask"
             - name: POSTGRES_PASSWORD
               value: "flask"
+            - name: POSTGRES_HOST
+              value: "postgres"
           volumeMounts:
             - name: pgdata
               mountPath: /var/lib/postgresql/data
