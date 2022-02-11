@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+
+  server:
+    image: zozoh94/flask-vue-server:v1.1
+    #build:
+    #  context: ./services/server
+    #  dockerfile: Dockerfile
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    build:
+      context: ./services/db
+      dockerfile: Dockerfile
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  client:
+    image: zozoh94/flask-vue-client:v1.1
+    #build:
+    #  context: ./services/client
+    #  dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - server
+    environment:
+      - ROOT_API=http://localhost:5001
+
+  init:
+    image: zozoh94/flask-vue-init:v1.1
+    #build:
+    #  context: ./services/server
+    #  dockerfile: Dockerfile-init
+    depends_on:
+      - postgres
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

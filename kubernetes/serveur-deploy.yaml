@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: serveur
+  name: serveur
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: serveur
+  template:
+    metadata:
+      labels:
+        app: serveur
+    spec:
+      containers:
+      - image: zozoh94/flask-vue-serveur:latest
+        name: serveur
